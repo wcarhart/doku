@@ -213,7 +213,7 @@ class DokuCell {
 	}
 
 	duplicate() {
-		return new DokuCell({index: this.index, possibilities: this.possibilities})
+		return new DokuCell({index: this.index, possibilities: [...this.possibilities]})
 	}
 }
 
