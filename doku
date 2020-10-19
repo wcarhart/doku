@@ -1,3 +1,4 @@
 #!/bin/bash
 
-deno run --allow-read src/solver.js "$@"
+SOURCE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+deno run --allow-read "${SOURCE}/src/solver.js" "$@"
