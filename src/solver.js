@@ -28,9 +28,18 @@ const solve = async (board) => {
 }
 
 const constructBoard = async (data) => {
+	let json = null
+	try {
+		json = JSON.parse(data)
+	} catch (e) {
+		json = await constructDokuData(data)
+	}
+	if (json === null) {
+		await showDataFormatHelp()
+		Deno.exit(1)
+	}
 	try {
 		let board = new DokuBoard([])
-		let json = JSON.parse(data)
 		let cells = []
 		for (let [index, item] of json.entries()) {
 			if (item.row === null || item.row === undefined) { console.error(`Missing 'row' property in input data ${index}`) ; Deno.exit(1) }
@@ -55,6 +64,55 @@ const constructBoard = async (data) => {
 		console.error(e)
 		Deno.exit(1)
 	}
+}
+
+const constructDokuData = async (data) => {
+    let lines = data.replaceAll(' ', '').replaceAll('|', '').replaceAll('-', '').replaceAll('?', '*').split('\n')
+    lines = lines.filter(line => line !== '')
+    if (lines.length !== 9) {
+        await showDataFormatHelp({extraHelp: 'too many lines in human-readable format'})
+        Deno.exit(1)
+    }
+    let dokuData = []
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (lines[row][col] === '*') {
+                continue
+            } else if (['1','2','3','4','5','6','7','8','9'].includes(lines[row][col])) {
+                dokuData.push({
+                    row: Number(row + 1),
+                    col: Number(col + 1),
+                    value: Number(lines[row][col])
+                })
+            } else {
+                await showDataFormatHelp({extraHelp: `invalid character '${lines[row][col]}' found at row ${row+1}, column ${col+1}`})
+                Deno.exit(1)
+            }
+        }
+    }
+    return dokuData
+}
+
+const showDataFormatHelp = async ({extraHelp='incorrect format'}) => {
+	console.error(`Could not parse input data: ${extraHelp}`)
+	console.error('')
+	console.error('Input data can either be a JSON array that lists the row, column, and value of known cells in the board:')
+	console.error('  [ { "row": 1, "col": 4, "value": 5 }, { "row": 6, "col": 7, "value": 4 }, ... ]')
+	console.error('')
+	console.error('Or, it can be a human-readable 9x9 grid of numbers:')
+	console.error('  * * * | 5 * 6 | * * * ')
+	console.error('  * * 4 | * * * | 8 * * ')
+	console.error('  * 9 * | 1 * 2 | * 6 * ')
+	console.error('  --------------------- ')
+	console.error('  9 * 8 | * * * | 3 * 2 ')
+	console.error('  * * * | * 9 * | * * * ')
+	console.error('  1 * 2 | * * * | 4 * 7 ')
+	console.error('  --------------------- ')
+	console.error('  * 2 * | 3 * 4 | * 8 * ')
+	console.error('  * * 7 | * * * | 9 * * ')
+	console.error('  * * * | 9 * 5 | * * * ')
+	console.error('')
+	console.error('For human-readable format, use \'*\' or \'?\' for unknown values. These characters will be ignored: \' \', \'|\', \'-\'')
 }
 
 const usage = async () => {
@@ -97,7 +155,12 @@ const main = async () => {
 		await board.print()
 		console.log('=====================')
 		board = await solve(board)
-		await board.print()
+		if (board !== null) {
+			await board.print()
+		} else {
+			console.log('Board is not solvable')
+			Deno.exit(1)
+		}
 	} catch (e) {
 		console.error(e)
 		Deno.exit(1)

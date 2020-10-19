@@ -1,0 +1,23 @@
+[
+	{ "row": 1, "col": 1, "value": 8 },
+	{ "row": 2, "col": 3, "value": 3 },
+	{ "row": 2, "col": 4, "value": 6 },
+	{ "row": 3, "col": 2, "value": 7 },
+	{ "row": 3, "col": 5, "value": 9 },
+	{ "row": 3, "col": 7, "value": 2 },
+	{ "row": 4, "col": 2, "value": 5 },
+	{ "row": 4, "col": 6, "value": 7 },
+	{ "row": 5, "col": 5, "value": 4 },
+	{ "row": 5, "col": 6, "value": 5 },
+	{ "row": 5, "col": 7, "value": 7 },
+	{ "row": 6, "col": 4, "value": 1 },
+	{ "row": 6, "col": 8, "value": 3 },
+	{ "row": 7, "col": 3, "value": 1 },
+	{ "row": 7, "col": 8, "value": 6 },
+	{ "row": 7, "col": 9, "value": 8 },
+	{ "row": 8, "col": 3, "value": 8 },
+	{ "row": 8, "col": 4, "value": 5 },
+	{ "row": 8, "col": 8, "value": 1 },
+	{ "row": 9, "col": 2, "value": 9 },
+	{ "row": 9, "col": 7, "value": 4 }
+]
