@@ -37,11 +37,11 @@ class DokuBoard {
 			case 'row':
 				for (let i = Math.floor(cell.index / 9) * 9; i < Math.floor(cell.index / 9) * 9 + 9; i++) {
 					if (i === cell.index) { continue }
-					let c = this.cells[i].duplicate()
+					let c = this.cells[i]
 					if (c.possibilities.includes(value)) {
 						let index = c.possibilities.indexOf(value)
 						c.possibilities.splice(index, 1)
-						if (c.possibilities.length == 1) {
+						if (c.possibilities.length === 1) {
 							updatedCells.push(c)
 						}
 					}
@@ -50,11 +50,11 @@ class DokuBoard {
 			case 'col':
 				for (let i = cell.index % 9; i < 81; i += 9) {
 					if (i === cell.index) { continue }
-					let c = this.cells[i].duplicate()
+					let c = this.cells[i]
 					if (c.possibilities.includes(value)) {
 						let index = c.possibilities.indexOf(value)
 						c.possibilities.splice(index, 1)
-						if (c.possibilities.length == 1) {
+						if (c.possibilities.length === 1) {
 							updatedCells.push(c)
 						}
 					}
@@ -66,11 +66,11 @@ class DokuBoard {
 					for (let j = 0; j < 3 ; j++) {
 						let index = j * 9 + i
 						if (index === cell.index) { continue }
-						let c = this.cells[index].duplicate()
+						let c = this.cells[index]
 						if (c.possibilities.includes(value)) {
 							let valueIndex = c.possibilities.indexOf(value)
 							c.possibilities.splice(valueIndex, 1)
-							if (c.possibilities.length == 1) {
+							if (c.possibilities.length === 1) {
 								updatedCells.push(c)
 							}
 						}
@@ -213,7 +213,7 @@ class DokuCell {
 	}
 
 	duplicate() {
-		return new DokuCell({index: this.index, possibilities: this.possibilities})
+		return new DokuCell({index: this.index, possibilities: [...this.possibilities]})
 	}
 }
 

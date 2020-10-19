@@ -1,9 +1,6 @@
 import { DokuBoard, DokuCell } from './core.js'
 
 const solve = async (board) => {
-	await board.print()
-	console.log('============================================================')
-
 	// if board is inconceivable, abort this path in the tree
 	if (board.isInconceivable()) {
 		return null
@@ -17,8 +14,6 @@ const solve = async (board) => {
 	// dive into each possible branch
 	let copy = null, solution = null
 	let cell = board.determineNextMove()
-	// cell = new DokuCell({ index: 9, possibilities: [ 6, 5 ] })
-	console.log(cell)
 	for (let possibility of cell.possibilities) {
 		copy = board.duplicate()
 		copy.update(cell, possibility)
@@ -96,10 +91,11 @@ const parseArgs = async (args) => {
 }
 
 const main = async () => {
-	// let difficulty = 1
 	try {
 		let data = await parseArgs(Deno.args)
 		let board = await constructBoard(data)
+		await board.print()
+		console.log('=====================')
 		board = await solve(board)
 		await board.print()
 	} catch (e) {
