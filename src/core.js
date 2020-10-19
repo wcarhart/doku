@@ -25,8 +25,6 @@ class DokuBoard {
 				let results = this.percolate(processing, processing.possibilities[0], loc)
 				queue = queue.concat(results)
 			}
-			// this.printSync()
-			// console.log('============================================================')
 		}
 	}
 
