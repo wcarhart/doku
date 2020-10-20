@@ -143,7 +143,7 @@ const showDataFormatHelp = async ({extraHelp='incorrect format', error=true}) =>
 const usage = async () => {
 	console.log('doku - automated Sudoku solver')
 	console.log('')
-	console.log('Usage: doku [-h] [-i] <input>')
+	console.log('Usage: doku [-h] [-i] [-s] <input>')
 	console.log('')
 	console.log('Required arguments:')
 	console.log('  <input>  the path to the input file')
